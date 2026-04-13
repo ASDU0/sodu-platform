@@ -1,0 +1,237 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String     @id @default(uuid())
+  email         String     @unique
+  emailVerified Boolean    @default(false)
+  password      String? // Opcional si solo usas OAuth
+  full_name     String?
+  name          String? // Para el nombre de usuario o nombre corto
+  image         String? // Para la foto de perfil de Google/FB
+  adminProfile  AdminUser?
+
+  birthday DateTime?
+  sessions Session[]
+  accounts Account[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model AdminUser {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id @default(uuid())
+  userId                String
+  accountId             String
+  providerId            String
+  accessToken           String?   @db.Text
+  refreshToken          String?   @db.Text
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  idToken               String?   @db.Text
+  password              String?
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accounts")
+}
+
+model Verification {
+  id         String   @id @default(uuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("verifications")
+}
+
+// --- NÚCLEO INSTITUCIONAL ---
+
+model Config {
+  id          String @id @default("singleton")
+  email       String @default("sociedaddedebateunsaac@gmail.com")
+  location    String @default("Ciudad Universitaria de Perayoc - UNSAAC")
+  phone       String @default("994777854 / 953812433")
+  mission     String @db.Text
+  vision      String @db.Text
+  memberCount Int    @default(32)
+  yearsActive Int    @default(2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("config")
+}
+
+model Pilar {
+  id          String  @id @default(cuid())
+  title       String // Excelencia, Transparencia, etc.
+  description String  @db.Text
+  order       Int     @default(0)
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("pilars")
+}
+
+// --- PERSONAS (COACHES Y DIRECTIVA) ---
+
+enum RoleType {
+  COACH
+  DIRECTIVA
+}
+
+model Member {
+  id        String   @id @default(cuid())
+  name      String
+  roleTitle String // "Presidenta", "Docente de pregrado", etc.
+  bio       String   @db.Text
+  imageUrl  String?
+  type      RoleType
+  order     Int      @default(0) // Para controlar quién sale primero
+  isActive  Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("members")
+}
+
+// --- CLUB DE LECTURA ---
+
+model Book {
+  id          String    @id @default(cuid())
+  title       String
+  author      String
+  description String    @db.Text
+  coverUrl    String
+  rating      Float     @default(0)
+  isActive    Boolean   @default(true)
+  comments    Comment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("books")
+}
+
+model Comment {
+  id       String  @id @default(cuid())
+  userName String
+  content  String  @db.Text
+  rating   Int     @default(5)
+  bookId   String
+  book     Book    @relation(fields: [bookId], references: [id])
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("comments")
+}
+
+// --- ACTIVIDADES Y CONTENIDO ---
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  location    String?
+  description String?  @db.Text
+  type        String   @default("Actividad") // Cinefórum, Taller, etc.
+  link        String? // Para eventos online
+  isActive    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("events")
+}
+
+model Post {
+  id          String  @id @default(cuid())
+  platform    String // Instagram, TikTok, Facebook
+  title       String
+  description String  @db.Text
+  link        String
+  imageUrl    String?
+  isActive    Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("posts")
+}
+
+model VideoLesson {
+  id         String   @id @default(cuid())
+  title      String
+  youtubeUrl String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+  isActive   Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("video_lessons")
+}
+
+model Category {
+  id       String        @id @default(cuid())
+  name     String        @unique // Derecho Penal, Civil, etc.
+  videos   VideoLesson[]
+  isActive Boolean       @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("categories")
+}
