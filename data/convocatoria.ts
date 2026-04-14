@@ -1,4 +1,3 @@
-// src/data/convocatoria.ts
 export const CONVOCATORIA_DATA = {
   header: {
     title: "Convocatoria 2026-I",

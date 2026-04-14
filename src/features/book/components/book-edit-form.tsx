@@ -41,7 +41,7 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
       title: initialData.title,
       author: initialData.author,
       description: initialData.description,
-      coverUrl: initialData.coverUrl,
+      coverUrl: initialData.coverUrl || undefined,
       rating: initialData.rating,
       isActive: initialData.isActive,
     },
