@@ -4,7 +4,7 @@ export const createBookSchema = z.object({
   title: z.string().trim().min(1),
   author: z.string().trim().min(1),
   description: z.string().trim().min(1),
-  coverUrl: z.string().trim().min(1),
+  coverUrl: z.string().trim().optional(),
   rating: z.number().min(0).max(5),
   isActive: z.boolean().optional(),
 });

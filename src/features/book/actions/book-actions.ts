@@ -40,7 +40,7 @@ export async function createBook(input: unknown): Promise<ActionResponse<BookMod
         title: parsed.data.title,
         author: parsed.data.author,
         description: parsed.data.description,
-        coverUrl: parsed.data.coverUrl,
+        coverUrl: parsed.data.coverUrl ?? "",
         rating: parsed.data.rating ?? 0,
         isActive: parsed.data.isActive ?? true,
       },
