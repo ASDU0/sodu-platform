@@ -5,8 +5,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createMemberSchema, type CreateMemberInput } from "../schemas/member-schemas";
+import { createMemberSchema } from "../schemas/member-schemas";
 import { createMember } from "../actions/member-actions";
+import { MemberImageUpload } from "./member-image-upload";
 import { FormField } from "@/components/forms/form-field";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -32,9 +33,10 @@ export function MemberCreateForm({ redirectTo }: MemberCreateFormProps) {
     register,
     handleSubmit,
     setError,
+    setValue,
     reset,
     formState: { errors },
-  } = useForm<CreateMemberInput>({
+  } = useForm({
     resolver: zodResolver(createMemberSchema),
     defaultValues: {
       name: "",
@@ -47,7 +49,7 @@ export function MemberCreateForm({ redirectTo }: MemberCreateFormProps) {
     },
   });
 
-  const onSubmit = async (values: CreateMemberInput) => {
+  const onSubmit = async (values: Record<string, unknown>) => {
     setIsSubmitting(true);
     const response = await createMember(values);
     setIsSubmitting(false);
@@ -56,7 +58,8 @@ export function MemberCreateForm({ redirectTo }: MemberCreateFormProps) {
       toast.error(response.error ?? "No se pudo crear el miembro");
       if (response.details) {
         Object.entries(response.details).forEach(([field, message]) => {
-          setError(field as keyof CreateMemberInput, { message });
+          const fieldName = field as "name" | "roleTitle" | "bio" | "type" | "imageUrl" | "order" | "isActive";
+          setError(fieldName, { message });
         });
       }
       return;
@@ -90,15 +93,7 @@ export function MemberCreateForm({ redirectTo }: MemberCreateFormProps) {
           />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <FormField
-            label="URL de imagen"
-            placeholder="https://..."
-            error={errors.imageUrl?.message}
-            register={register("imageUrl", {
-              setValueAs: (value) => (value ? value : undefined),
-            })}
-          />
+         <div className="grid gap-4 md:grid-cols-2">
           <FormField
             label="Orden de aparicion"
             placeholder="0"

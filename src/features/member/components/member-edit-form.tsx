@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import type { MemberModel } from "@/app/generated/prisma/models/Member";
-import { updateMemberSchema, type UpdateMemberInput } from "../schemas/member-schemas";
+import { updateMemberSchema } from "../schemas/member-schemas";
 import { updateMember } from "../actions/member-actions";
 import { FormField } from "@/components/forms/form-field";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import { Loader2, Save } from "lucide-react";
+import { MemberImageUpload } from "./member-image-upload";
 
 interface MemberEditFormProps {
   initialData: MemberModel;
@@ -37,7 +38,7 @@ export function MemberEditForm({ initialData, redirectTo }: MemberEditFormProps)
     setValue,
     watch,
     formState: { errors, isDirty },
-  } = useForm<UpdateMemberInput>({
+  } = useForm({
     resolver: zodResolver(updateMemberSchema),
     defaultValues: {
       id: initialData.id,
@@ -53,7 +54,7 @@ export function MemberEditForm({ initialData, redirectTo }: MemberEditFormProps)
 
   const isActive = watch("isActive");
 
-  const onSubmit = async (values: UpdateMemberInput) => {
+  const onSubmit = async (values: Record<string, unknown>) => {
     setIsSubmitting(true);
     const response = await updateMember(values);
     setIsSubmitting(false);
@@ -62,7 +63,8 @@ export function MemberEditForm({ initialData, redirectTo }: MemberEditFormProps)
       toast.error(response.error ?? "No se pudo actualizar el miembro");
       if (response.details) {
         Object.entries(response.details).forEach(([field, message]) => {
-          setError(field as keyof UpdateMemberInput, { message });
+          const fieldName = field as "id" | "name" | "roleTitle" | "bio" | "type" | "order" | "isActive" | "imageUrl";
+          setError(fieldName, { message });
         });
       }
       return;
@@ -92,15 +94,17 @@ export function MemberEditForm({ initialData, redirectTo }: MemberEditFormProps)
         />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <FormField
-          label="URL de imagen"
-          placeholder="https://..."
-          error={errors.imageUrl?.message}
-          register={register("imageUrl", {
-            setValueAs: (value) => (value ? value : undefined),
-          })}
-        />
+       <div className="grid gap-6 md:grid-cols-2">
+         <div className="space-y-2">
+           <MemberImageUpload
+             memberId={initialData.id}
+             currentImageUrl={initialData.imageUrl}
+             onImageChange={(imageUrl) => {
+               setValue("imageUrl", imageUrl, { shouldDirty: true });
+             }}
+           />
+         </div>
+
         <FormField
           label="Orden de aparicion"
           type="number"
