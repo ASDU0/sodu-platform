@@ -21,6 +21,7 @@ interface BookCreateFormProps {
 export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
 
   const {
     register,
@@ -40,9 +41,16 @@ export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
     },
   });
 
+
   const onSubmit = async (values: CreateBookInput) => {
+    // Use uploaded image URL if available, otherwise use the manual URL
+    const finalValues = {
+      ...values,
+      coverUrl: coverImageUrl || values.coverUrl,
+    };
+
     setIsSubmitting(true);
-    const response = await createBook(values);
+    const response = await createBook(finalValues);
     setIsSubmitting(false);
 
     if (!response.success) {
@@ -57,6 +65,7 @@ export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
 
     toast.success("Libro creado correctamente");
     reset();
+    setCoverImageUrl(null);
     if (redirectTo) {
       router.push(redirectTo);
       router.refresh();
@@ -67,7 +76,9 @@ export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
 
   return (
     <Card className="p-6">
-      <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+
+        {/* Book Details Grid */}
         <div className="grid gap-4 md:grid-cols-2">
           <FormField
             label="Titulo"
@@ -83,13 +94,8 @@ export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
           />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <FormField
-            label="URL de portada"
-            placeholder="https://..."
-            error={errors.coverUrl?.message}
-            register={register("coverUrl")}
-          />
+        {/* URL and Rating */}
+        <div className="grid gap-4 md:grid-cols-1">
           <FormField
             label="Calificacion"
             placeholder="0 - 5"
@@ -99,6 +105,7 @@ export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
           />
         </div>
 
+        {/* Description */}
         <div className="space-y-2">
           <Label className={errors.description ? "text-destructive" : undefined}>
             Descripcion
@@ -113,11 +120,13 @@ export function BookCreateForm({ redirectTo }: BookCreateFormProps) {
           ) : null}
         </div>
 
+        {/* Visibility Toggle */}
         <div className="flex items-center gap-3">
           <Input type="checkbox" className="h-4 w-4" {...register("isActive")} />
           <Label>Visible en la web</Label>
         </div>
 
+        {/* Submit Button */}
         <div className="flex justify-end">
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Guardando..." : "Crear libro"}

@@ -23,7 +23,21 @@ export const deleteBookSchema = z.object({
   id: z.string().min(1),
 });
 
+/**
+ * Schema for uploading book cover images to Cloudinary
+ */
+export const uploadBookImageSchema = z.object({
+  file: z.instanceof(File)
+    .refine((file) => file.size <= 3 * 1024 * 1024, "Image must be less than 3MB")
+    .refine(
+      (file) => ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      "Only JPEG, PNG, and WebP images are supported"
+    ),
+  bookId: z.string().min(1),
+});
+
 export type CreateBookInput = z.infer<typeof createBookSchema>;
 export type UpdateBookInput = z.infer<typeof updateBookSchema>;
 export type DeleteBookInput = z.infer<typeof deleteBookSchema>;
+export type UploadBookImageInput = z.infer<typeof uploadBookImageSchema>;
 

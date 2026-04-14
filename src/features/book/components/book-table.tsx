@@ -145,7 +145,7 @@ export function BookTable({ books }: BookTableProps) {
                     <DropdownMenuContent align="end" className="w-40">
                       <DropdownMenuItem asChild>
                         <Link
-                          href={`/book/${book.id}/edit`}
+                          href={`/dashboard/books/${book.id}/edit`}
                           className="cursor-pointer"
                         >
                           <Pencil className="mr-2 h-4 w-4" />

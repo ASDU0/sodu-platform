@@ -21,23 +21,23 @@ import {
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import {usePathname} from "next/navigation";
+import {cn} from "@/lib/utils";
 
 const navigation = [
   {
     title: "Principal",
     items: [
-      { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-      { title: "Libros", href: "/dashboard/books", icon: BookOpen },
-      { title: "Miembros", href: "/dashboard/members", icon: Users },
-      { title: "Usuarios", href: "/dashboard/users", icon: Users },
+      {title: "Dashboard", href: "/dashboard", icon: LayoutDashboard},
+      {title: "Libros", href: "/dashboard/books", icon: BookOpen},
+      {title: "Miembros", href: "/dashboard/members", icon: Users},
+      {title: "Usuarios", href: "/dashboard/users", icon: Users},
     ],
   },
   {
     title: "Configuración",
     items: [
-      { title: "Ajustes", href: "/dashboard/settings", icon: Settings },
+      {title: "Ajustes", href: "/dashboard/settings", icon: Settings},
     ],
   },
 ];
@@ -49,8 +49,9 @@ export function AppSidebar() {
     <Sidebar variant="sidebar" collapsible="icon" className="border-r border-border/40 bg-card">
       <SidebarHeader className="h-16 border-b border-border/40 px-6 flex items-center">
         <Link href="/dashboard" className="flex items-center gap-2 group">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm group-hover:scale-105 transition-transform">
-            <BookOpen className="h-5 w-5" />
+          <div
+            className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm group-hover:scale-105 transition-transform">
+            <BookOpen className="h-5 w-5"/>
           </div>
           <span className="font-bold tracking-tight text-foreground group-data-[collapsible=icon]:hidden">
             SODU Admin
@@ -61,7 +62,8 @@ export function AppSidebar() {
       <SidebarContent>
         {navigation.map((group) => (
           <SidebarGroup key={group.title}>
-            <SidebarGroupLabel className="px-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">
+            <SidebarGroupLabel
+              className="px-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground/70">
               {group.title}
             </SidebarGroupLabel>
             <SidebarMenu>
@@ -80,10 +82,10 @@ export function AppSidebar() {
                       )}
                     >
                       <Link href={item.href}>
-                        <item.icon className={cn("h-4 w-4", isActive && "text-primary")} />
+                        <item.icon className={cn("h-4 w-4", isActive && "text-primary")}/>
                         <span>{item.title}</span>
                         {isActive && (
-                          <div className="absolute left-0 h-5 w-1 rounded-r-full bg-primary" />
+                          <div className="absolute left-0 h-5 w-1 rounded-r-full bg-primary"/>
                         )}
                       </Link>
                     </SidebarMenuButton>
@@ -98,12 +100,15 @@ export function AppSidebar() {
       <SidebarFooter className="border-t border-border/40 p-4">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-colors"
+            <Link href={'/logout'}
             >
-              <LogOut className="h-4 w-4" />
-              <span>Cerrar sesión</span>
-            </SidebarMenuButton>
+              <SidebarMenuButton
+                className="w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-colors"
+              >
+                <LogOut className="h-4 w-4"/>
+                <span>Cerrar sesión</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

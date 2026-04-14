@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import type { BookModel } from "@/app/generated/prisma/models/Book";
 import { updateBookSchema, type UpdateBookInput } from "../schemas/book-schemas";
 import { updateBook } from "../actions/book-actions";
+import { BookImageUpload } from "./book-image-upload";
 import { FormField } from "@/components/forms/form-field";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -24,6 +25,7 @@ interface BookEditFormProps {
 export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(initialData.coverUrl || null);
 
   const {
     register,
@@ -49,15 +51,20 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
   const isActive = watch("isActive");
 
   const onSubmit = async (values: UpdateBookInput) => {
+    // Use uploaded image URL if available, otherwise use the form value
+    const finalValues = {
+      ...values,
+      coverUrl: coverImageUrl || values.coverUrl,
+    };
+
     setIsSubmitting(true);
-    const response = await updateBook(values);
+    const response = await updateBook(finalValues);
     setIsSubmitting(false);
 
     if (!response.success) {
       toast.error(response.error ?? "No se pudo actualizar el libro");
       if (response.details) {
         Object.entries(response.details).forEach(([field, message]) => {
-          // Si recordamos tu lógica, tomamos el primer error del string
           setError(field as keyof UpdateBookInput, { message });
         });
       }
@@ -73,6 +80,19 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      {/* Image Upload Section */}
+      <div className="space-y-3">
+        <BookImageUpload
+          bookId={initialData.id}
+          currentImageUrl={coverImageUrl}
+          onImageChange={(url) => {
+            setCoverImageUrl(url);
+            setValue("coverUrl", url, { shouldDirty: true });
+          }}
+        />
+      </div>
+
+      {/* Book Details Grid */}
       <div className="grid gap-6 md:grid-cols-2">
         <FormField
           label="Título del libro"
@@ -88,13 +108,8 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
         />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <FormField
-          label="URL de la portada"
-          placeholder="https://..."
-          error={errors.coverUrl?.message}
-          register={register("coverUrl")}
-        />
+      {/* URL and Rating */}
+      <div className="grid gap-6 md:grid-cols-1">
         <FormField
           label="Calificación (0 - 5)"
           type="number"
@@ -104,6 +119,7 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
         />
       </div>
 
+      {/* Description */}
       <div className="space-y-2">
         <Label
           htmlFor="description"
@@ -127,6 +143,7 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
         )}
       </div>
 
+      {/* Visibility Toggle */}
       <div className="flex items-center space-x-3 rounded-lg border border-border/40 bg-muted/20 p-4 transition-colors hover:bg-muted/30">
         <Checkbox
           id="isActive"
@@ -143,6 +160,7 @@ export function BookEditForm({ initialData, redirectTo }: BookEditFormProps) {
         </div>
       </div>
 
+      {/* Submit Button */}
       <div className="flex items-center justify-end gap-4 pt-4">
         <Button
           type="submit"
