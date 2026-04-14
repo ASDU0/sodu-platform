@@ -40,7 +40,7 @@ export default function Footer() {
                   src="/images/logo-20sodu.png"
                   alt="SODU Logo"
                   fill
-                  className="object-contain filter invert"
+                  className="object-contain filter"
                 />
               </div>
               <div>

@@ -29,7 +29,7 @@ export default function Navigation() {
                 src="/images/logo-20sodu.png"
                 alt="SODU Logo"
                 fill
-                className="object-contain"
+                className="object-contain invert"
                 priority
               />
             </div>
