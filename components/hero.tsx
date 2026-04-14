@@ -22,7 +22,7 @@ export default function Hero() {
   const slides = [
     {
       title: "Bienvenido a SODU",
-      subtitle: "Sociedad de Oratoria y Debate Universitaria",
+      subtitle: "Sociedad de Debate UNSAAC",
       description: "Espacio para desarrollar habilidades de comunicación, pensamiento crítico y liderazgo",
       image: "/carrusel/carusel1.jpg",
     },
