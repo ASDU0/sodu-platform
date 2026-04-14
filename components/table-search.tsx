@@ -24,18 +24,35 @@ export function TableSearch({ placeholder = "Buscar...", paramKey = "q" }: Table
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams.toString());
+      const currentQueryInUrl = searchParams.get(paramKey) ?? "";
+
+      // CRÍTICO: Si el valor del estado es igual al de la URL, no hagas nada
+      if (value === currentQueryInUrl) {
+        return;
+      }
+
       if (value) {
         params.set(paramKey, value);
       } else {
         params.delete(paramKey);
       }
+
+      // Opcional: manejar también el reset de la página al buscar
+      if (params.has("page")) {
+        params.set("page", "1");
+      }
+
       const queryString = params.toString();
-      router.replace(queryString ? `${pathname}?${queryString}` : pathname);
+      const nextPath = queryString ? `${pathname}?${queryString}` : pathname;
+
+      router.replace(nextPath, { scroll: false });
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [paramKey, pathname, router, searchParams, value]);
+    // Eliminamos searchParams de las dependencias si solo queremos reaccionar a 'value'
+    // o lo mantenemos pero con la guardia del 'if' superior.
+  }, [value, paramKey, pathname, router, searchParams]);
 
   const clearSearch = () => {
     setValue("");

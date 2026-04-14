@@ -4,31 +4,27 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Menu, X } from "lucide-react"
 import { NAV_LINKS } from "@/constants/navigation"
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-// Helper para manejar clases de Tailwind limpiamente
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+import { cn } from "@/lib/utils" // Asumiendo que usas el helper estándar de shadcn
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
 
+  // Cerrar menú móvil al cambiar de ruta
   useEffect(() => {
-    // setIsOpen(false)
+    setIsOpen(false)
   }, [pathname])
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
+    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
 
           {/* Logo Section */}
-          <Link href="/" className="flex items-center gap-3 transition-opacity hover:opacity-90">
-            <div className="relative w-10 h-10 md:w-12 md:h-12">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-105">
               <Image
                 src="/images/logo-20sodu.png"
                 alt="SODU Logo"
@@ -38,13 +34,15 @@ export default function Navigation() {
               />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-[#030a50] font-bold text-lg leading-none">SODU</h1>
-              <p className="text-[10px] text-gray-500 uppercase tracking-wider mt-1">Oratoria y Debate</p>
+              <h1 className="text-[#030a50] font-bold text-xl leading-none tracking-tight">SODU</h1>
+              <p className="text-[10px] text-[#be8a34] font-bold uppercase tracking-[0.15em] mt-1">
+                Sociedad de Debate UNSAAC
+              </p>
             </div>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-2">
             {NAV_LINKS.map((link) => {
               const isActive = pathname === link.href
               return (
@@ -52,13 +50,16 @@ export default function Navigation() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "px-4 py-2 text-sm font-medium rounded-md transition-colors",
+                    "relative px-4 py-2 text-sm font-bold transition-all duration-200 rounded-full",
                     isActive
-                      ? "bg-[#030a50] text-white"
-                      : "text-[#030a50] hover:bg-gray-50"
+                      ? "text-[#030a50] bg-slate-50"
+                      : "text-[#030a50]/70 hover:text-[#030a50] hover:bg-slate-50"
                   )}
                 >
                   {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-[#be8a34] rounded-full" />
+                  )}
                 </Link>
               )
             })}
@@ -67,27 +68,20 @@ export default function Navigation() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 text-[#030a50] hover:bg-gray-50 rounded-md"
-            aria-label="Abrir menú"
+            className="lg:hidden p-2 text-[#030a50] hover:bg-slate-100 rounded-full transition-colors"
+            aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-              />
-            </svg>
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
       {/* Mobile Menu Slide-down */}
       <div className={cn(
-        "lg:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100",
-        isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        "lg:hidden overflow-hidden transition-all duration-300 ease-in-out bg-white border-t border-gray-100 shadow-xl",
+        isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
       )}>
-        <div className="px-4 py-3 space-y-1">
+        <div className="px-6 py-8 space-y-3">
           {NAV_LINKS.map((link) => {
             const isActive = pathname === link.href
             return (
@@ -95,13 +89,14 @@ export default function Navigation() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "block px-4 py-3 text-base font-medium rounded-md",
+                  "flex items-center justify-between px-4 py-4 text-lg font-bold rounded-xl transition-all",
                   isActive
                     ? "bg-[#030a50] text-white"
-                    : "text-[#030a50] hover:bg-gray-50"
+                    : "text-[#030a50] hover:bg-slate-50 border border-transparent"
                 )}
               >
                 {link.label}
+                {isActive && <div className="w-2 h-2 bg-[#be8a34] rounded-full" />}
               </Link>
             )
           })}

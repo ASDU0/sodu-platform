@@ -14,9 +14,13 @@ export function getValidationErrors<T>(error: z.ZodError<T>): Record<string, str
 
     const field = formatted[key as keyof typeof formatted];
 
-    if (field && "_errors" in field && field._errors.length > 0) {
-      // Mantenemos el principio KISS: solo el primer error
-      errors[key] = field._errors[0];
+    // Type guard for error field objects
+    if (field && typeof field === "object" && "_errors" in field) {
+      const errorList = (field as { _errors: string[] })._errors;
+      if (errorList && errorList.length > 0) {
+        // Keep KISS principle: only first error
+        errors[key] = errorList[0];
+      }
     }
   }
 

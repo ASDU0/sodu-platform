@@ -12,7 +12,8 @@ export type CurrentUser = {
 
 export const getCurrentUser = async () => {
   try {
-    const session = await getSession()
+    const session = await getSession();
+    console.log("[SESSION]", session);
     if (!session.success) {
       return null;
     }

@@ -1,7 +1,7 @@
 opilot Instructions
 
 ## Project Overview
-The SODU (Sociedad de Debate UNSAAC) platform is a high-performance digital ecosystem for a university debate society. It uses a **Feature-Based Architecture** to ensure scalability and maintainability.
+The SODU () platform is a high-performance digital ecosystem for a university debate society. It uses a **Feature-Based Architecture** to ensure scalability and maintainability.
 
 ### Core Tech Stack
 - **Framework:** Next.js (App Router)
