@@ -41,7 +41,7 @@ export function AboutSection() {
           <div className="absolute inset-0 bg-gradient-to-t from-[#030a50]/20 to-transparent z-10 opacity-60" />
 
           <Image
-            src="/academic-society-members-discussion-debate.jpg"
+            src="/quienes_somos/quienes_somos.JPG"
             fill
             alt="Debate UNSAAC"
             className="object-cover transition-transform duration-700 group-hover:scale-105"

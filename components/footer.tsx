@@ -49,8 +49,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Sociedad de Oratoria y Debate Universitaria.
-              Fomentando el pensamiento crítico y la excelencia académica en la UNSAAC.
+              Sociedad de Debate UNSAAC
             </p>
           </div>
 

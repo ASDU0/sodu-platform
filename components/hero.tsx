@@ -24,21 +24,42 @@ export default function Hero() {
       title: "Bienvenido a SODU",
       subtitle: "Sociedad de Oratoria y Debate Universitaria",
       description: "Espacio para desarrollar habilidades de comunicación, pensamiento crítico y liderazgo",
-      image: "/elegant-academic-conference-podium.jpg",
+      image: "/carrusel/carusel1.jpg",
     },
     {
       title: "Nuestras Actividades",
       subtitle: "Debates, conferencias y eventos académicos",
       description: "Participa en debates estructurados, cinefórums y seminarios de reflexión",
-      image: "/group-discussion-classroom-academic.jpg",
+      image: "/carrusel/carusel2.jpg",
     },
     {
       title: "Desarrolla tus Habilidades",
       subtitle: "Talleres, coachs y mentoría personalizada",
       description: "Aprende de expertos y mejora tu oratoria, análisis crítico y argumentación",
-      image: "/professional-workshop-training-presentation.jpg",
+      image: "/carrusel/carusel4.JPG",
     },
-  ]
+  ];
+
+  const newsItems = [
+    {
+      title: "III Convocatoria 2026",
+      desc: "Únete a la Sociedad de Debate. Inscripciones abiertas del 14 al 30 de abril.",
+      date: "Abril 2026",
+      image: "/news/convocatoria.png",
+    },
+    {
+      title: "Taller Legalmente Básico",
+      desc: "Ciclo especializado de introducción al derecho y oratoria jurídica.",
+      date: "Marzo 2026",
+      image: "/news/taller_legalmente_basico_2026.png",
+    },
+    {
+      title: "Club de Lectura",
+      desc: "Espacio de análisis y crítica literaria todos los viernes en la facultad.",
+      date: "Marzo 2026",
+      image: "/news/club_de_lectura.png",
+    },
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -148,43 +169,54 @@ export default function Hero() {
               <h2 className="text-3xl md:text-4xl font-bold text-[#030a50]">Últimas Noticias</h2>
               <div className="h-1 w-20 bg-[#be8a34] mt-4 rounded-full" />
             </div>
-            <Button variant="ghost" className="text-[#be8a34] font-bold hover:text-[#030a50]">
-              Ver todas las noticias
-            </Button>
+            {/*<Button variant="ghost" className="text-[#be8a34] font-bold hover:text-[#030a50]">*/}
+            {/*  Ver todas las noticias*/}
+            {/*</Button>*/}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Gran Debate Anual 2026",
-                desc: "Exitosa jornada de argumentación con la participación de diversas facultades.",
-                date: "Abril 2026",
-              },
-              {
-                title: "Taller de Oratoria Jurídica",
-                desc: "Iniciamos el ciclo especializado para estudiantes de Derecho y Ciencias Políticas.",
-                date: "Marzo 2026",
-              },
-              {
-                title: "Nueva Sede Académica",
-                desc: "Ya puedes visitarnos en nuestra nueva oficina en la Ciudad Universitaria.",
-                date: "Febrero 2026",
-              },
-            ].map((news, i) => (
-              <div key={i} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
-                <div className="h-48 bg-[#030a50] relative flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#030a50] to-[#be8a34] opacity-80" />
-                  <Calendar className="text-white/20 w-24 h-24 absolute -right-4 -bottom-4" />
-                  <span className="relative text-white font-bold text-lg uppercase tracking-widest opacity-40">SODU NEWS</span>
-                </div>
-                <div className="p-8">
-                  <div className="flex items-center gap-2 text-[#be8a34] text-sm font-bold mb-3 uppercase tracking-tighter">
-                    <Calendar size={14} /> {news.date}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-4">
+            {newsItems.map((news, i) => (
+              <div
+                key={i}
+                className="group bg-white rounded-[2rem] overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 border border-gray-100 flex flex-col"
+              >
+                {/* Image Container con Aspect Ratio controlado */}
+                <div className="h-64 relative overflow-hidden bg-gray-200">
+                  <Image
+                    src={news.image}
+                    alt={news.title}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Gradient Overlay para legibilidad y estética */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#030a50]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="absolute top-4 left-4">
+              <span className="bg-[#be8a34] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                Destacado
+              </span>
                   </div>
-                  <h3 className="text-xl font-bold text-[#030a50] mb-3 group-hover:text-[#be8a34] transition-colors">
+                </div>
+
+                <div className="p-8 flex flex-col flex-1">
+                  <div className="flex items-center gap-2 text-[#be8a34] text-xs font-bold mb-3 uppercase tracking-widest">
+                    <Calendar size={14} className="stroke-[3px]" />
+                    {news.date}
+                  </div>
+
+                  <h3 className="text-xl font-black text-[#030a50] mb-3 group-hover:text-[#be8a34] transition-colors leading-tight">
                     {news.title}
                   </h3>
-                  <p className="text-gray-600 line-clamp-2">{news.desc}</p>
+
+                  <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-6">
+                    {news.desc}
+                  </p>
+
+                  {/*<div className="mt-auto pt-4 border-t border-gray-50">*/}
+                  {/*  <button className="text-[#030a50] text-xs font-black uppercase tracking-tighter group-hover:gap-3 flex items-center gap-2 transition-all">*/}
+                  {/*    Leer más <span className="text-[#be8a34]">→</span>*/}
+                  {/*  </button>*/}
+                  {/*</div>*/}
                 </div>
               </div>
             ))}
