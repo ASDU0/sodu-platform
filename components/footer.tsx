@@ -1,105 +1,139 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
+import {
+  Mail,
+  MapPin,
+  Phone,
+  ExternalLink
+} from "lucide-react"
+
+const SocialIcons = {
+  Facebook: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+  ),
+  Instagram: () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+  ),
+}
+
+const socialLinks = [
+  { icon: SocialIcons.Facebook, label: "Facebook" },
+  { icon: SocialIcons.Instagram, label: "Instagram" },
+]
 
 export default function Footer() {
   return (
-    <footer className="bg-[#030a50] text-white">
-      {/* Main Footer */}
+    <footer className="bg-[#030a50] text-white relative">
+      {/* Línea decorativa superior estilo SODU */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-[#be8a34]" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Logo & Description */}
-          <div>
-            <div className="flex items-center gap-3 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+          {/* Logo & Descripción */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-3">
               <div className="w-12 h-12 relative">
                 <Image
                   src="/images/logo-20sodu.png"
                   alt="SODU Logo"
-                  width={48}
-                  height={48}
+                  fill
                   className="object-contain filter invert"
                 />
               </div>
-              <h3 className="text-xl font-bold">SODU</h3>
+              <div>
+                <h3 className="text-2xl font-bold tracking-tight">SODU</h3>
+                <div className="h-0.5 w-8 bg-[#be8a34]" />
+              </div>
             </div>
-            <p className="text-gray-300 text-sm">Sociedad de Oratoria y Debate Universitaria</p>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Sociedad de Oratoria y Debate Universitaria.
+              Fomentando el pensamiento crítico y la excelencia académica en la UNSAAC.
+            </p>
           </div>
 
-          {/* Quick Links */}
+          {/* Secciones */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-[#be8a34]">Secciones</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h4 className="text-lg font-bold mb-6 text-[#be8a34] uppercase tracking-widest">Secciones</h4>
+            <ul className="space-y-4 text-sm">
               {["Inicio", "La Sociedad", "Actividades", "Contacto"].map((link) => (
                 <li key={link}>
-                  <a href="#" className="hover:text-[#be8a34] transition">
+                  <Link href="#" className="text-gray-400 hover:text-white hover:translate-x-1 transition-all flex items-center gap-2 group">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#be8a34] opacity-0 group-hover:opacity-100 transition-opacity" />
                     {link}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Activities */}
+          {/* Actividades */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-[#be8a34]">Actividades</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
+            <h4 className="text-lg font-bold mb-6 text-[#be8a34] uppercase tracking-widest">Actividades</h4>
+            <ul className="space-y-4 text-sm">
               {["Club de Lectura", "Cinefórum", "Talleres", "Seminarios"].map((activity) => (
                 <li key={activity}>
-                  <a href="#" className="hover:text-[#be8a34] transition">
+                  <Link href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+                    <ExternalLink size={14} className="text-[#be8a34]/50" />
                     {activity}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contacto */}
           <div>
-            <h4 className="text-lg font-bold mb-4 text-[#be8a34]">Contacto</h4>
-            <ul className="space-y-2 text-sm text-gray-300">
-              <li className="flex items-start gap-2">
-                <span>📧</span>
-                <span>info@sodu.edu</span>
+            <h4 className="text-lg font-bold mb-6 text-[#be8a34] uppercase tracking-widest">Contacto</h4>
+            <ul className="space-y-4 text-sm text-gray-400">
+              <li className="flex items-start gap-3">
+                <Mail size={18} className="text-[#be8a34] shrink-0" />
+                <a href="mailto:sociedaddedebateunsaac@gmail.com" className="hover:text-white transition-colors break-all">
+                  sociedaddedebateunsaac@gmail.com
+                </a>
               </li>
-              <li className="flex items-start gap-2">
-                <span>📍</span>
-                <span>Campus Universitario</span>
+              <li className="flex items-start gap-3">
+                <MapPin size={18} className="text-[#be8a34] shrink-0" />
+                <span className="leading-relaxed">
+                  Ciudad Universitaria de Perayoc - UNSAAC | Facultad de Derecho, Oficina 202
+                </span>
               </li>
-              <li className="flex items-start gap-2">
-                <span>🕐</span>
-                <span>Lun-Vie: 3PM - 7PM</span>
+              <li className="flex items-start gap-3">
+                <Phone size={18} className="text-[#be8a34] shrink-0" />
+                <span>994 777 854 / 953 812 433</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Social Links */}
-        <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        {/* Social Links & Copyright */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex gap-4">
-            {[
-              { icon: "f", label: "Facebook" },
-              { icon: "📷", label: "Instagram" },
-              { icon: "🐦", label: "Twitter" },
-              { icon: "💼", label: "LinkedIn" },
-            ].map((social) => (
+            {socialLinks.map((social, i) => (
               <a
-                key={social.label}
+                key={i}
                 href="#"
-                className="w-10 h-10 rounded-full bg-[#be8a34] hover:bg-white transition flex items-center justify-center text-[#030a50] font-bold"
+                className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#be8a34] hover:text-[#030a50] transition-all duration-300 flex items-center justify-center text-white/80"
                 aria-label={social.label}
               >
-                {social.icon}
+                <social.icon />
               </a>
             ))}
           </div>
-          <p className="text-gray-400 text-sm">© 2025 SODU. Todos los derechos reservados.</p>
+          <p className="text-gray-500 text-xs tracking-widest uppercase">
+            © {new Date().getFullYear()} SODU. Todos los derechos reservados.
+          </p>
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="bg-black/20 border-t border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center text-gray-400 text-sm">
-          <p>Desarrollado con excelencia académica • Diseñado para inspirar</p>
+      {/* Barra Inferior */}
+      <div className="bg-black/40 py-4">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-[10px] md:text-xs text-gray-500 uppercase tracking-[0.2em]">
+            Desarrollado con excelencia académica • Cusco, Perú
+          </p>
         </div>
       </div>
     </footer>

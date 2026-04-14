@@ -3,7 +3,7 @@ import type {Metadata} from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "SODU - Sociedad de Oratoria y Debate",
+  title: "Sociedad de Debate UNSAAC",
   description: "Sociedad académica voluntaria dedicada a la oratoria, debate, análisis crítico y desarrollo personal",
   // generator: "v0.app",
   // icons: {

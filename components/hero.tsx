@@ -2,11 +2,22 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation"
+import {
+  ChevronLeft,
+  ChevronRight,
+  BookOpen,
+  Film,
+  GraduationCap,
+  Mic2,
+  Calendar,
+  ArrowRight
+} from "lucide-react"
+import { Button } from "@/components/ui/button"
 
 export default function Hero() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const router = useRouter();
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const router = useRouter()
 
   const slides = [
     {
@@ -32,110 +43,97 @@ export default function Hero() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length)
-    }, 5000)
+    }, 6000)
     return () => clearInterval(timer)
-  }, [])
+  }, [slides.length])
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index)
-  }
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length)
-  }
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
-  }
-
-  const handleRouter = () => {
-    router.push("/sociedad")
-  }
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length)
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
 
   return (
     <main className="w-full">
       {/* Hero Carousel */}
-      <div className="relative w-full h-96 md:h-screen overflow-hidden carousel-container bg-[#030a50]">
+      <div className="relative w-full h-[85vh] md:h-screen overflow-hidden bg-[#030a50]">
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 carousel-slide ${
-              index === currentSlide ? "active" : "inactive"
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
             <Image
-              src={slide.image || "/placeholder.svg"}
+              src={slide.image}
               alt={slide.title}
               fill
               className="object-cover"
               priority={index === 0}
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#030a50]/80 via-[#030a50]/40 to-transparent" />
           </div>
         ))}
 
         {/* Carousel Content */}
-        <div className="relative z-10 h-full flex flex-col justify-center items-center text-center px-4">
-          <div className="max-w-3xl mx-auto fade-in">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 text-balance">
+        <div className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-20">
+          <div className="max-w-3xl animate-in fade-in slide-in-from-left-5 duration-1000">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 tracking-tight">
               {slides[currentSlide].title}
             </h1>
-            <p className="text-xl md:text-2xl text-[#be8a34] mb-6 font-semibold text-balance">
+            <p className="text-xl md:text-2xl text-[#be8a34] mb-6 font-bold uppercase tracking-wider">
               {slides[currentSlide].subtitle}
             </p>
-            <p className="text-lg md:text-xl text-white/90 mb-8 text-balance">{slides[currentSlide].description}</p>
-            <button
-              onClick={handleRouter}
-              className="bg-[#be8a34] hover:bg-[#a0773a] text-[#030a50] font-bold py-3 px-8 rounded transition-colors"
+            <p className="text-lg md:text-xl text-white/90 mb-8 max-w-xl leading-relaxed">
+              {slides[currentSlide].description}
+            </p>
+            <Button
+              size="lg"
+              onClick={() => router.push("/sociedad")}
+              className="bg-[#be8a34] hover:bg-[#a0773a] text-[#030a50] font-bold px-10 h-14 text-lg transition-all"
             >
-              Conoce Más
-            </button>
+              Conoce Más <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
           </div>
         </div>
 
         {/* Carousel Controls */}
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 transition"
-        >
-          ←
-        </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 text-white rounded-full p-3 transition"
-        >
-          →
-        </button>
-
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all ${
-                index === currentSlide ? "bg-[#be8a34] w-8" : "bg-white/50 hover:bg-white/75"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+        <div className="absolute inset-x-0 bottom-10 z-30 flex justify-between items-center px-4 md:px-10">
+          <div className="flex gap-2">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`h-1.5 transition-all rounded-full ${
+                  index === currentSlide ? "bg-[#be8a34] w-12" : "bg-white/30 w-6 hover:bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+          <div className="flex gap-3">
+            <button onClick={prevSlide} className="p-3 rounded-full border border-white/20 bg-white/10 text-white hover:bg-[#be8a34] hover:text-[#030a50] transition-all">
+              <ChevronLeft size={24} />
+            </button>
+            <button onClick={nextSlide} className="p-3 rounded-full border border-white/20 bg-white/10 text-white hover:bg-[#be8a34] hover:text-[#030a50] transition-all">
+              <ChevronRight size={24} />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Quick Links */}
-      <section className="py-12 md:py-16 bg-white border-b border-gray-200">
+      {/* Quick Links / Secciones */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: "📚", title: "Club de Lectura", desc: "Análisis crítico de obras" },
-              { icon: "🎬", title: "Cinefórum", desc: "Debates sobre películas" },
-              { icon: "🎓", title: "Talleres", desc: "Desarrollo de habilidades" },
-              { icon: "🎤", title: "Seminarios", desc: "Conferencias especializadas" },
+              { icon: BookOpen, title: "Club de Lectura", desc: "Análisis crítico y profundo de obras literarias." },
+              { icon: Film, title: "Cinefórum", desc: "Debate y reflexión a través del séptimo arte." },
+              { icon: GraduationCap, title: "Talleres", desc: "Capacitación en técnicas de debate y oratoria." },
+              { icon: Mic2, title: "Seminarios", desc: "Encuentros académicos con ponentes expertos." },
             ].map((item, i) => (
-              <div key={i} className="text-center p-6 rounded-lg hover:bg-gray-50 transition">
-                <div className="text-4xl mb-3">{item.icon}</div>
-                <h3 className="text-lg font-bold text-[#030a50] mb-2">{item.title}</h3>
-                <p className="text-gray-600 text-sm">{item.desc}</p>
+              <div key={i} className="group p-8 rounded-2xl border border-gray-100 hover:border-[#be8a34]/30 hover:shadow-xl hover:shadow-[#030a50]/5 transition-all duration-300">
+                <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center text-[#be8a34] mb-6 group-hover:scale-110 transition-transform">
+                  <item.icon size={32} />
+                </div>
+                <h3 className="text-xl font-bold text-[#030a50] mb-3">{item.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -143,33 +141,50 @@ export default function Hero() {
       </section>
 
       {/* Latest News */}
-      <section className="py-12 md:py-16 bg-gray-50">
+      <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-[#030a50] mb-12 text-center">Últimas Noticias</h2>
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-[#030a50]">Últimas Noticias</h2>
+              <div className="h-1 w-20 bg-[#be8a34] mt-4 rounded-full" />
+            </div>
+            <Button variant="ghost" className="text-[#be8a34] font-bold hover:text-[#030a50]">
+              Ver todas las noticias
+            </Button>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
-                title: "Gran Debate Anual 2024",
-                desc: "Se llevó a cabo nuestro debate anual con participantes de distintas universidades.",
-                date: "Diciembre 2024",
+                title: "Gran Debate Anual 2026",
+                desc: "Exitosa jornada de argumentación con la participación de diversas facultades.",
+                date: "Abril 2026",
               },
               {
-                title: "Nuevo Taller de Oratoria",
-                desc: "Iniciamos nuestro taller intensivo de técnicas de oratoria y presentación.",
-                date: "Noviembre 2024",
+                title: "Taller de Oratoria Jurídica",
+                desc: "Iniciamos el ciclo especializado para estudiantes de Derecho y Ciencias Políticas.",
+                date: "Marzo 2026",
               },
               {
-                title: "Cinefórum: Cine y Sociedad",
-                desc: "Reflexionamos sobre películas contemporáneas y su impacto social.",
-                date: "Octubre 2024",
+                title: "Nueva Sede Académica",
+                desc: "Ya puedes visitarnos en nuestra nueva oficina en la Ciudad Universitaria.",
+                date: "Febrero 2026",
               },
             ].map((news, i) => (
-              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition">
-                <div className="h-40 bg-gradient-to-br from-[#030a50] to-[#be8a34]" />
-                <div className="p-6">
-                  <p className="text-[#be8a34] text-sm font-semibold mb-2">{news.date}</p>
-                  <h3 className="text-lg font-bold text-[#030a50] mb-3">{news.title}</h3>
-                  <p className="text-gray-600 text-sm">{news.desc}</p>
+              <div key={i} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
+                <div className="h-48 bg-[#030a50] relative flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#030a50] to-[#be8a34] opacity-80" />
+                  <Calendar className="text-white/20 w-24 h-24 absolute -right-4 -bottom-4" />
+                  <span className="relative text-white font-bold text-lg uppercase tracking-widest opacity-40">SODU NEWS</span>
+                </div>
+                <div className="p-8">
+                  <div className="flex items-center gap-2 text-[#be8a34] text-sm font-bold mb-3 uppercase tracking-tighter">
+                    <Calendar size={14} /> {news.date}
+                  </div>
+                  <h3 className="text-xl font-bold text-[#030a50] mb-3 group-hover:text-[#be8a34] transition-colors">
+                    {news.title}
+                  </h3>
+                  <p className="text-gray-600 line-clamp-2">{news.desc}</p>
                 </div>
               </div>
             ))}

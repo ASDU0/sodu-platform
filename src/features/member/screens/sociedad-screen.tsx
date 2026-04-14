@@ -1,8 +1,11 @@
-import { getMembers } from "../actions/member-actions";
-import { EmptyState } from "@/components/empty-state";
-import { MemberList } from "../components/member-list";
+import {getMembers} from "../actions/member-actions";
+import {EmptyState} from "@/components/empty-state";
+import {MemberList} from "../components/member-list";
+import {MissionVision} from "@/components/mission-and-vision";
+import {PillarsGrid} from "@/components/pillars-grid";
+import {AboutSection} from "@/components/about-section";
 
-export async function MemberPublicScreen() {
+export async function SociedadScreen() {
   const members = await getMembers();
   const activeMembers = members.filter((member) => member.isActive);
   const coaches = activeMembers.filter((member) => member.type === "COACH");
@@ -14,8 +17,26 @@ export async function MemberPublicScreen() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-bold md:text-5xl">La Sociedad</h1>
           <p className="mt-4 text-lg text-[#be8a34]">
-            Conoce a la directiva y a los coaches que guian nuestras actividades.
+            Conoce nuestra historia, misión y valores
           </p>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+          <AboutSection />
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+          <MissionVision/>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
+          <PillarsGrid/>
         </div>
       </section>
 
@@ -34,7 +55,7 @@ export async function MemberPublicScreen() {
               description="Vuelve pronto para conocer a nuestro equipo directivo."
             />
           ) : (
-            <MemberList members={directiva} />
+            <MemberList members={directiva}/>
           )}
         </div>
       </section>
@@ -54,7 +75,7 @@ export async function MemberPublicScreen() {
               description="Vuelve pronto para conocer a nuestros coaches."
             />
           ) : (
-            <MemberList members={coaches} />
+            <MemberList members={coaches}/>
           )}
         </div>
       </section>
