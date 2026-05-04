@@ -3,6 +3,8 @@ import { getMembers } from "@/src/features/member/actions/member-actions";
 import { MemberList } from "@/src/features/member/components/member-list";
 import { GraduationCap, ShieldCheck } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 export default async function DirectivaScreen() {
   const members = await getMembers();
   const activeMembers = members.filter((member) => member.isActive);
