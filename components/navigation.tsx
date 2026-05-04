@@ -34,7 +34,7 @@ export default function Navigation() {
               />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-[#030a50] font-bold text-xl leading-none tracking-tight">SODU</h1>
+              <span className="text-[#030a50] font-bold text-xl leading-none tracking-tight block">SODU</span>
               <p className="text-[10px] text-[#be8a34] font-bold uppercase tracking-[0.15em] mt-1">
                 Sociedad de Debate UNSAAC
               </p>

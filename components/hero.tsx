@@ -72,15 +72,14 @@ export default function Hero() {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length)
 
   return (
-    <main className="w-full">
+    <div className="w-full">
       {/* Hero Carousel */}
       <div className="relative w-full h-[85vh] md:h-screen overflow-hidden bg-[#030a50]">
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
-            }`}
+            className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
           >
             <Image
               src={slide.image}
@@ -122,9 +121,8 @@ export default function Hero() {
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`h-1.5 transition-all rounded-full ${
-                  index === currentSlide ? "bg-[#be8a34] w-12" : "bg-white/30 w-6 hover:bg-white/50"
-                }`}
+                className={`h-1.5 transition-all rounded-full ${index === currentSlide ? "bg-[#be8a34] w-12" : "bg-white/30 w-6 hover:bg-white/50"
+                  }`}
               />
             ))}
           </div>
@@ -192,9 +190,9 @@ export default function Hero() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#030a50]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                   <div className="absolute top-4 left-4">
-              <span className="bg-[#be8a34] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
-                Destacado
-              </span>
+                    <span className="bg-[#be8a34] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest shadow-lg">
+                      Destacado
+                    </span>
                   </div>
                 </div>
 
@@ -223,6 +221,6 @@ export default function Hero() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   )
 }
