@@ -3,15 +3,17 @@ import type React from "react";
 import Footer from "@/components/footer";
 
 export default function PublicLayout({
-                                       children,
-                                     }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <div>
-      <Navigation/>
-      {children}
-      <Footer/>
-    </div>
+    <>
+      <Navigation />
+      <main id="main-content">
+        {children}
+      </main>
+      <Footer />
+    </>
   )
 }

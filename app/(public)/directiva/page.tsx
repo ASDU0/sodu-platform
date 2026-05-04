@@ -2,6 +2,12 @@ import { EmptyState } from "@/components/empty-state";
 import { getMembers } from "@/src/features/member/actions/member-actions";
 import { MemberList } from "@/src/features/member/components/member-list";
 import { GraduationCap, ShieldCheck } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nuestro Equipo | Directiva y Coaches",
+  description: "Conoce a la mesa directiva y al cuerpo de coaches de SODU. Estudiantes y mentores dedicados a la excelencia en el debate universitario.",
+};
 
 export const dynamic = 'force-dynamic';
 
@@ -14,7 +20,7 @@ export default async function DirectivaScreen() {
   const directiva = activeMembers.filter((member) => member.type === "DIRECTIVA");
 
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white">
       {/* --- HERO SECTION --- */}
       <section className="relative bg-[#030a50] py-20 md:py-32 overflow-hidden">
         {/* Decoración de fondo sutil */}
@@ -97,6 +103,6 @@ export default async function DirectivaScreen() {
           )}
         </div>
       </section>
-    </main>
+    </div>
   );
 }
