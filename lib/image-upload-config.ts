@@ -5,7 +5,7 @@
  * across different features (members, books, events, etc.)
  */
 
-export type ImageUploadFeature = "member" | "book" | "event" | "pilar" | "comment";
+export type ImageUploadFeature = "member" | "book" | "event" | "pilar" | "comment" | "workshop";
 
 export interface ImageUploadConfig {
   feature: ImageUploadFeature;
@@ -56,6 +56,14 @@ export const IMAGE_UPLOAD_CONFIGS: Record<ImageUploadFeature, ImageUploadConfig>
     feature: "comment",
     folder: "sodu/comments",
     maxSize: 2 * 1024 * 1024, // 2MB
+    allowedMimes: ["image/jpeg", "image/png", "image/webp"],
+    quality: "auto",
+    fetchFormat: "auto",
+  },
+  workshop: {
+    feature: "workshop",
+    folder: "sodu/workshops",
+    maxSize: 5 * 1024 * 1024, // 5MB
     allowedMimes: ["image/jpeg", "image/png", "image/webp"],
     quality: "auto",
     fetchFormat: "auto",

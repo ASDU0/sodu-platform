@@ -6,6 +6,7 @@ import {
   LayoutDashboard,
   Settings,
   Users,
+  Sparkles,
   LogOut,
 } from "lucide-react";
 
@@ -30,6 +31,7 @@ const navigation = [
     items: [
       {title: "Dashboard", href: "/dashboard", icon: LayoutDashboard},
       {title: "Libros", href: "/dashboard/books", icon: BookOpen},
+      {title: "Talleres", href: "/dashboard/workshops", icon: Sparkles},
       {title: "Miembros", href: "/dashboard/members", icon: Users},
       {title: "Usuarios", href: "/dashboard/users", icon: Users},
     ],
