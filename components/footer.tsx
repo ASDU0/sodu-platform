@@ -11,19 +11,34 @@ import {
 
 const SocialIcons = {
   Facebook: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
   ),
   Instagram: () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg>
   ),
 }
 
+// TODO: Agregar las URLs de las redes sociales
 const socialLinks = [
-  { icon: SocialIcons.Facebook, label: "Facebook" },
-  { icon: SocialIcons.Instagram, label: "Instagram" },
+  { icon: SocialIcons.Facebook, label: "Facebook", href: " https://www.facebook.com/people/Sociedad-de-Debate-Unsaac/61566406122343" },
+  { icon: SocialIcons.Instagram, label: "Instagram", href: "https://www.instagram.com/s.debate_unsaac" },
 ]
 
 export default function Footer() {
+  const sections = [
+    { name: "Inicio", href: "/" },
+    { name: "La Sociedad", href: "/sociedad" },
+    { name: "Actividades", href: "/activities" },
+    { name: "Contacto", href: "#contacto" },
+  ]
+
+  const activities = [
+    { name: "Club de Lectura", href: "/lectura" },
+    { name: "Cinefórum", href: "/cineforum" },
+    { name: "Talleres", href: "/activities" },
+    { name: "Seminarios", href: "/activities" },
+  ]
+
   return (
     <footer className="bg-[#030a50] text-white relative">
       {/* Línea decorativa superior estilo SODU */}
@@ -57,11 +72,11 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-bold mb-6 text-[#be8a34] uppercase tracking-widest">Secciones</h4>
             <ul className="space-y-4 text-sm">
-              {["Inicio", "La Sociedad", "Actividades", "Contacto"].map((link) => (
-                <li key={link}>
-                  <Link href="#" className="text-gray-400 hover:text-white hover:translate-x-1 transition-all flex items-center gap-2 group">
+              {sections.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-gray-400 hover:text-white hover:translate-x-1 transition-all flex items-center gap-2 group">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#be8a34] opacity-0 group-hover:opacity-100 transition-opacity" />
-                    {link}
+                    {link.name}
                   </Link>
                 </li>
               ))}
@@ -72,11 +87,11 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-bold mb-6 text-[#be8a34] uppercase tracking-widest">Actividades</h4>
             <ul className="space-y-4 text-sm">
-              {["Club de Lectura", "Cinefórum", "Talleres", "Seminarios"].map((activity) => (
-                <li key={activity}>
-                  <Link href="#" className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
+              {activities.map((activity) => (
+                <li key={activity.name}>
+                  <Link href={activity.href} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2">
                     <ExternalLink size={14} className="text-[#be8a34]/50" />
-                    {activity}
+                    {activity.name}
                   </Link>
                 </li>
               ))}
@@ -84,7 +99,7 @@ export default function Footer() {
           </div>
 
           {/* Contacto */}
-          <div>
+          <div id="contacto">
             <h4 className="text-lg font-bold mb-6 text-[#be8a34] uppercase tracking-widest">Contacto</h4>
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-start gap-3">
@@ -113,7 +128,9 @@ export default function Footer() {
             {socialLinks.map((social, i) => (
               <a
                 key={i}
-                href="#"
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-xl bg-white/5 hover:bg-[#be8a34] hover:text-[#030a50] transition-all duration-300 flex items-center justify-center text-white/80"
                 aria-label={social.label}
               >

@@ -2,10 +2,16 @@ import Image from "next/image";
 import { CONVOCATORIA_DATA } from "@/data/convocatoria";
 import { Rocket, Trophy, ClipboardList } from "lucide-react";
 import { TimelineSection } from "@/src/features/calls/components/timeline-section";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Nueva Convocatoria 2026",
+  description: "¡Únete a SODU! Participa en nuestra convocatoria 2026 y forma parte de la sociedad académica líder en debate y oratoria de la UNSAAC.",
+};
 
 export default function ConvocatoriaScreen() {
   return (
-    <main className="min-h-screen bg-slate-50/50">
+    <div className="min-h-screen bg-slate-50/50">
       {/* Hero Section con Imagen de Fondo */}
       <section className="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-[#030a50]">
         {/* Imagen de fondo optimizada */}
@@ -92,6 +98,6 @@ export default function ConvocatoriaScreen() {
           <TimelineSection steps={CONVOCATORIA_DATA.cronograma} />
         </div>
       </section>
-    </main>
+    </div>
   );
 }
