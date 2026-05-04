@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
   ChevronLeft,
@@ -142,18 +143,18 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { icon: BookOpen, title: "Club de Lectura", desc: "Análisis crítico y profundo de obras literarias." },
-              { icon: Film, title: "Cinefórum", desc: "Debate y reflexión a través del séptimo arte." },
-              { icon: GraduationCap, title: "Talleres", desc: "Capacitación en técnicas de debate y oratoria." },
-              { icon: Mic2, title: "Seminarios", desc: "Encuentros académicos con ponentes expertos." },
+              { icon: BookOpen, title: "Club de Lectura", desc: "Análisis crítico y profundo de obras literarias.", href: "/lectura" },
+              { icon: Film, title: "Cinefórum", desc: "Debate y reflexión a través del séptimo arte.", href: "/cineforum" },
+              { icon: GraduationCap, title: "Talleres", desc: "Capacitación en técnicas de debate y oratoria.", href: "/talleres" },
+              { icon: Mic2, title: "Seminarios", desc: "Encuentros académicos con ponentes expertos.", href: "/seminarios" },
             ].map((item, i) => (
-              <div key={i} className="group p-8 rounded-2xl border border-gray-100 hover:border-[#be8a34]/30 hover:shadow-xl hover:shadow-[#030a50]/5 transition-all duration-300">
+              <Link key={i} href={item.href} className="group p-8 rounded-2xl border border-gray-100 hover:border-[#be8a34]/30 hover:shadow-xl hover:shadow-[#030a50]/5 transition-all duration-300 block">
                 <div className="w-14 h-14 rounded-xl bg-slate-50 flex items-center justify-center text-[#be8a34] mb-6 group-hover:scale-110 transition-transform">
                   <item.icon size={32} />
                 </div>
                 <h3 className="text-xl font-bold text-[#030a50] mb-3">{item.title}</h3>
                 <p className="text-gray-600 leading-relaxed">{item.desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -236,3 +236,19 @@ model Category {
 
   @@map("categories")
 }
+
+model Workshop {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  startsAt    DateTime
+  location    String
+  capacity    Int
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("workshops")
+}
