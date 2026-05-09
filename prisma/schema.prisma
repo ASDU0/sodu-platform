@@ -180,20 +180,49 @@ model Comment {
 // --- ACTIVIDADES Y CONTENIDO ---
 
 model Event {
-  id          String   @id @default(cuid())
-  title       String
-  date        DateTime
-  location    String?
-  description String?  @db.Text
-  type        String   @default("Actividad") // Cinefórum, Taller, etc.
-  link        String? // Para eventos online
-  imageUrl    String?
-  isActive    Boolean  @default(true)
+  id           String        @id @default(cuid())
+  title        String
+  date         DateTime
+  location     String?
+  description  String?       @db.Text
+  type         String        @default("Actividad") // Cinefórum, Taller, etc.
+  link         String?
+  imageUrl     String?
+  capacity     Int?          // null = cupos ilimitados
+  isActive     Boolean       @default(true)
+  reservations Reservation[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("events")
+}
+
+// --- RESERVAS ---
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Reservation {
+  id      String @id @default(cuid())
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  name  String
+  email String
+  phone String?
+  notes String? @db.Text
+
+  status ReservationStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([eventId, email])
+  @@map("reservations")
 }
 
 model Post {

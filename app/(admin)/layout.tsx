@@ -1,11 +1,16 @@
+import { redirect } from "next/navigation";
+import { isAdminCurrentUser } from "@/lib/is-admin-user";
 import {SidebarProvider, SidebarTrigger} from "@/components/ui/sidebar";
 import {AppSidebar} from "@/components/app-sidebar";
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
                                           children,
                                         }: {
   children: React.ReactNode;
 }) {
+  const user = await isAdminCurrentUser();
+  if (!user) redirect("/login");
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background">

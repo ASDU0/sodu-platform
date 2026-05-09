@@ -7,6 +7,8 @@ import {
   Settings,
   Users,
   LogOut,
+  CalendarDays,
+  ClipboardList,
 } from "lucide-react";
 
 import {
@@ -29,9 +31,10 @@ const navigation = [
     title: "Principal",
     items: [
       {title: "Dashboard", href: "/dashboard", icon: LayoutDashboard},
+      {title: "Eventos", href: "/dashboard/events", icon: CalendarDays},
+      {title: "Reservas", href: "/dashboard/reservations", icon: ClipboardList},
       {title: "Libros", href: "/dashboard/books", icon: BookOpen},
       {title: "Miembros", href: "/dashboard/members", icon: Users},
-      {title: "Usuarios", href: "/dashboard/users", icon: Users},
     ],
   },
   {
