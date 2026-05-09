@@ -7,6 +7,7 @@ export const createEventSchema = z.object({
   description: z.string().trim().min(1).optional().nullable(),
   type: z.string().trim().min(1).optional(),
   link: z.string().trim().min(1).optional().nullable(),
+  capacity: z.coerce.number().int().positive().optional().nullable(),
   isActive: z.boolean().optional(),
 });
 
@@ -18,6 +19,7 @@ export const updateEventSchema = z.object({
   description: z.string().trim().min(1).optional().nullable(),
   type: z.string().trim().min(1),
   link: z.string().trim().min(1).optional().nullable(),
+  capacity: z.coerce.number().int().positive().optional().nullable(),
   isActive: z.boolean(),
 });
 
